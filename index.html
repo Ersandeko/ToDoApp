@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+
+</head>
+<body ng-app="myApp" ng-controller="todoCtrl">
+  <section class="todoapp">
+    <h1>TODOS</h1>
+    <form ng-submit="todoAdd()">
+        <input type="text" ng-model="todoInput"  placeholder="What needs to be done?">
+        <!-- <input type="submit" value="Add New"> -->
+    </form>
+    
+    <br>
+    <section class="main">
+        <input id="toggle-all" type="checkbox" ng-model="master" ng-change="checkAll()">
+        <label for="toggle-all">Check All</label>
+     <div class="todo-list">
+      <div ng-repeat="x in todoList | filter:filterByStatus"  class="list">
+        <div class="view">
+        <input class="edit" type="checkbox" ng-model="x.done"  ng-change="uncheckMaster()"> <span ng-show="!x.editing" ng-bind="x.todoText" class="done-{{x.done}} new-todo" ng-dblclick="x.editing = true"></span>
+        <!-- <input class="test" ng-model="x.todoText" ng-show="x.editing" ng-blur="x.editing = false" ng-keypress="$event.keyCode === 13 && x.editing = false"> -->
+        <button class="delete" ng-click="removeTask($index)">&times;</button>
+        </div>
+      </div>
+     </div>
+    </section>
+
+    <div ng-if="todoList.length > 0" class="footer">
+        <span class="emphasis">{{getTotalTodos()}} item(s) left</span>
+        <div class="filters">
+        <button ng-click="showAll()" class="foot_btn">All</button>
+        <button ng-click="showActive()" class="foot_btn">Active</button>
+        <button ng-click="showDone()" class="foot_btn">Completed</button>
+    </div>
+    <button id="clear_completed" ng-click="remove()">Remove marked</button>
+    </div>
+
+    
+    
+
+</section>
+
+    <script src="app.js"></script>
+</body>
+</html>
